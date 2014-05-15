@@ -2,10 +2,12 @@
 
 LaserIcpAlgorithm::LaserIcpAlgorithm(void)
 {
+    pthread_mutex_init(&this->access_,NULL);
 }
 
 LaserIcpAlgorithm::~LaserIcpAlgorithm(void)
 {
+    pthread_mutex_destroy(&this->access_);
 }
 
 void LaserIcpAlgorithm::config_update(Config& new_cfg, uint32_t level)

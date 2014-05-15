@@ -54,7 +54,9 @@ class LaserIcpAlgNode : public algorithm_base::IriBaseAlgorithm<LaserIcpAlgorith
     // [service attributes]
     ros::ServiceServer get_relative_pose_server_;
     bool get_relative_poseCallback(iri_laser_icp::GetRelativePose::Request &req, iri_laser_icp::GetRelativePose::Response &res);
-    CMutex get_relative_pose_mutex_;
+    pthread_mutex_t get_relative_pose_mutex_;
+    void get_relative_pose_mutex_enter(void);
+    void get_relative_pose_mutex_exit(void);
 
     // [client attributes]
 

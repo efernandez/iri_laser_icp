@@ -13,6 +13,7 @@ LaserIcpAlgNode::LaserIcpAlgNode(void) :
 
   // [init services]
   this->get_relative_pose_server_ = this->public_node_handle_.advertiseService("get_relative_pose", &LaserIcpAlgNode::get_relative_poseCallback, this);
+  pthread_mutex_init(&this->get_relative_pose_mutex_,NULL);
 
   // [init clients]
 
@@ -35,6 +36,7 @@ LaserIcpAlgNode::LaserIcpAlgNode(void) :
 LaserIcpAlgNode::~LaserIcpAlgNode(void)
 {
   // [free dynamic memory]
+  pthread_mutex_destroy(&this->get_relative_pose_mutex_);
 }
 
 void LaserIcpAlgNode::mainNodeThread(void)
@@ -175,6 +177,16 @@ bool LaserIcpAlgNode::get_relative_poseCallback(
   //this->get_relative_pose_mutex_.exit();
 
   return true;
+}
+
+void LaserIcpAlgNode::get_relative_pose_mutex_enter(void) 
+{ 
+  pthread_mutex_lock(&this->get_relative_pose_mutex_); 
+} 
+
+void LaserIcpAlgNode::get_relative_pose_mutex_exit(void) 
+{ 
+  pthread_mutex_unlock(&this->get_relative_pose_mutex_); 
 }
 
 /*  [action callbacks] */

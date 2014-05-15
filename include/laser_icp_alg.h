@@ -26,7 +26,6 @@
 #define _laser_icp_alg_h_
 
 #include <iri_laser_icp/LaserIcpConfig.h>
-#include "mutex.h"
 
 //include laser_icp_alg main library
 
@@ -41,10 +40,10 @@ class LaserIcpAlgorithm
    /**
     * \brief define config type
     *
-    * Define a Config type with the LaserIcpConfig. All driver implementations
+    * Define a Config type with the HelloWorldConfig. All driver implementations
     * will then use the same variable type Config.
     */
-    CMutex alg_mutex_;
+    pthread_mutex_t access_;    
 
     // private attributes and methods
 
@@ -80,23 +79,29 @@ class LaserIcpAlgorithm
     *
     * Locks access to the Algorithm class
     */
-    void lock(void) { alg_mutex_.enter(); };
+    void lock(void) { pthread_mutex_lock(&this->access_); };
 
    /**
     * \brief Unlock Algorithm
     *
     * Unlocks access to the Algorithm class
     */
-    void unlock(void) { alg_mutex_.exit(); };
+    void unlock(void) { pthread_mutex_unlock(&this->access_); };
 
    /**
     * \brief Tries Access to Algorithm
     *
     * Tries access to Algorithm
-    *
+    * 
     * \return true if the lock was adquired, false otherwise
     */
-    bool try_enter(void) { return alg_mutex_.try_enter(); };
+    bool try_enter(void) 
+    { 
+      if(pthread_mutex_trylock(&this->access_)==0)
+        return true;
+      else
+        return false;
+    };
 
    /**
     * \brief config update

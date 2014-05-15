@@ -8,8 +8,6 @@ download_and_compile_csm()
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED)
-find_package(iriutils REQUIRED)
-
 
 # ******************************************************************** 
 #                 Add catkin additional components here
@@ -71,7 +69,7 @@ catkin_package(
 # ******************************************************************** 
 #      Add system and labrobotica run time dependencies here
 # ******************************************************************** 
-  DEPENDS iriutils
+# DEPENDS 
 )
 
 ###########
@@ -84,7 +82,6 @@ catkin_package(
 include_directories(include)
 include_directories(${catkin_INCLUDE_DIRS})
 include_directories(${csm_INCLUDE_DIRS})
-include_directories(${iriutils_INCLUDE_DIR})
 
 ## Declare a cpp library
 # add_library(${PROJECT_NAME} <list of source files>)
@@ -98,7 +95,6 @@ add_executable(${PROJECT_NAME} src/laser_icp_alg.cpp src/laser_icp_alg_node.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${LINK_LIBRARIES} gsl)
 target_link_libraries(${PROJECT_NAME} ${csm_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} ${iriutils_LIBRARY})
 
 # ******************************************************************** 
 #               Add message headers dependencies 
