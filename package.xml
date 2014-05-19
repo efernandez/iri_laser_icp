@@ -28,6 +28,7 @@
   <!-- ****************************************************************** -->
   <!--                 Place build dependencies here                      -->
   <!-- ****************************************************************** -->
+    <build_depend>libgsl</build_depend>
     <build_depend>tf</build_depend>
     <build_depend>sensor_msgs</build_depend>
     <build_depend>geometry_msgs</build_depend>
