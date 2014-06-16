@@ -43,3 +43,8 @@ add_dependencies(${PROJECT_NAME} ${csm_EXPORTED_TARGETS})
 
 install(PROGRAMS scripts/test_laser_icp.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+foreach(dir launch)
+    install(DIRECTORY ${dir}/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
