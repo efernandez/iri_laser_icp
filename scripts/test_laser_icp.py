@@ -1,51 +1,65 @@
 #!/usr/bin/env python
 
 import rospy
-from iri_laser_icp.srv import GetRelativePose
+
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import PoseWithCovarianceStamped
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped
 
-import sys
+import tf.transformations as tft
 
-class test_laser_icp:
+from iri_laser_icp.srv import GetRelativePose
 
-  def __init__(self):
-    rospy.loginfo("initiating node...")
-    rospy.init_node('test_laser_icp', anonymous=True)
-    self.scan_subs = rospy.Subscriber("scan", LaserScan, self.callback)
-    self.first = True
-    self.pose = PoseWithCovarianceStamped()
-    self.scan1 = LaserScan()
-    self.scan2 = LaserScan()
+class TestLaserICP:
+    def __init__(self):
+        rospy.init_node('test_laser_icp', anonymous=True)
 
-  def get_pose_client(self):
-      rospy.loginfo("waiting to get service...")
-      rospy.wait_for_service('test_icp_server/get_relative_pose')
-      try:
-          get_pose = rospy.ServiceProxy('test_icp_server/get_relative_pose', GetRelativePose)
-          respose = get_pose(self.scan1, self.scan2)
-          self.pose = respose.pose_rel
-      except rospy.ServiceException, e:
-          print "Service call failed: %s"%e
+        self._sub = rospy.Subscriber('scan', LaserScan, self._callback)
 
-  def callback(self, laserscan):
-      rospy.loginfo("le callback")
-      if(self.first):
-        self.scan1 = laserscan
-        self.first = False
-      else:
-        self.scan2 = laserscan
-        self.get_pose_client()
-        rospy.loginfo(" Pose: x,y %f %f ",self.pose.pose.pose.position.x,self.pose.pose.pose.position.y)
-        self.scan1 = self.scan2
+        self._first = True
+        self._pose = PoseWithCovarianceStamped()
+        self._scan1 = LaserScan()
+        self._scan2 = LaserScan()
+        self._prior = Pose()
 
-def main(args):
-      li = test_laser_icp()
-      try:
+    def _get_pose_client(self):
+        try:
+            pose_srv = rospy.ServiceProxy('test_icp_server/get_relative_pose', GetRelativePose)
+            pose_srv.wait_for_service()
+
+            res = pose_srv(self._scan0, self._scan1, self._prior)
+
+            if res.success:
+                return res.pose_rel.pose.pose
+            else:
+                rospy.logwarn('Failed to find relative pose')
+                return None
+        except rospy.ServiceException as e:
+            rospy.logerr('Service call failed: %s' % e)
+
+    def _callback(self, msg):
+        if self._first:
+            self._scan0 = msg
+            self._first = False
+        else:
+            self._scan1 = msg
+            pose = self._get_pose_client()
+
+            if pose != None:
+                q = [pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w]
+                rpy = tft.euler_from_quaternion(q)
+                yaw = rpy[2]
+
+                rospy.loginfo('Pose (x, y, theta) = (%f, %f, %f)', pose.position.x, pose.position.y, yaw)
+
+            self._scan0 = self._scan1
+
+def main():
+    tli = TestLaserICP()
+    try:
         rospy.spin()
-      except KeyboardInterrupt:
-        print "Shutting down"
+    except KeyboardInterrupt:
+        pass
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main()
 
