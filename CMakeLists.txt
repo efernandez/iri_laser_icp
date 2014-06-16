@@ -41,3 +41,5 @@ add_dependencies(${PROJECT_NAME} iri_laser_icp_generate_messages_cpp)
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME} ${csm_EXPORTED_TARGETS})
 
+install(PROGRAMS scripts/test_laser_icp.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
