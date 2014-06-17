@@ -1,4 +1,4 @@
-#include <iri_laser_icp/laser_icp_alg_node.h>
+#include <iri_laser_icp/laser_icp_server.h>
 
 LaserIcpAlgNode::LaserIcpAlgNode(void) :
   algorithm_base::IriBaseAlgorithm<LaserIcpAlgorithm>()

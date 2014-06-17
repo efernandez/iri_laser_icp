@@ -1,20 +1,13 @@
-<!-- laser navigation testing-->
 <launch>
+  <!--arg name="bag" default="$(find iri_laser_icp)/data/L_pujadeta_indoor_2012-05-25-12-34-23.bag"/-->
 
-<!-- <arg name="bag" default="$(find iri_laser_icp)/data/L_pujadeta_indoor_2012-05-25-12-34-23.bag" />
-
-<node name="rosbag"
-      pkg="rosbag"
-      type="play"
-      output="screen"
+  <!--node name="rosbag" pkg="rosbag" type="play" output="screen"
       args = "$(arg bag) -clock -pause">
-      <remap from="/teo/front_laser/scan" to="/scan" />
-</node> -->
+    <remap from="/teo/front_laser/scan" to="/scan"/>
+  </node-->
 
-<node name="test_icp_server"
-      pkg="iri_laser_icp"
-      type="iri_laser_icp"
-      output="screen">
+  <node name="test_icp_server" pkg="iri_laser_icp" type="laser_icp_server"
+        output="screen">
     <param name="~max_angular_correction_deg" value="30"/>
     <param name="~max_linear_correction" value="1"/>
     <param name="~max_iterations" value="30"/>
@@ -26,25 +19,16 @@
     <param name="~restart" value="1"/>
     <param name="~do_visibility_test" value="0"/>
     <param name="~do_compute_covariance" value="1"/>
-</node>
+  </node>
 
-<!--
-<node name="test_icp_client"
-      pkg="iri_laser_icp"
-      type="test_laser_icp.py"
+  <!--node name="test_icp_client" pkg="iri_laser_icp" type="test_laser_icp.py"
       output="screen">
-      <remap from="~scan" to="/teo/front_laser/scan" />
-</node>
--->
-<!-- node name="rviz" pkg="rviz" type="rviz"/ 
+    <remap from="~scan" to="/teo/front_laser/scan"/>
+  </node-->
 
+  <!--node name="rviz" pkg="rviz" type="rviz"/-->
 
-<node name="pwcs_to_odom"
-      pkg="iri_msg_to_odom"
-      type="posewcs_to_odom">
-      <remap from="~pose" to="/iri_laser_localisation/pose"/>
-      </node>
-
--->
-
+  <!--node name="pwcs_to_odom" pkg="iri_msg_to_odom" type="posewcs_to_odom">
+    <remap from="~pose" to="/iri_laser_localisation/pose"/>
+  </node-->
 </launch>

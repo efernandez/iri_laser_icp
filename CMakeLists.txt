@@ -45,8 +45,8 @@ add_dependencies(${PROJECT_NAME} iri_laser_icp_generate_messages_cpp)
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME} ${csm_EXPORTED_TARGETS})
 
-add_executable(laser_icp_alg_node src/laser_icp_alg_node.cpp)
-target_link_libraries(laser_icp_alg_node ${PROJECT_NAME})
+add_executable(laser_icp_server src/laser_icp_server.cpp)
+target_link_libraries(laser_icp_server ${PROJECT_NAME})
 
 install(PROGRAMS scripts/test_laser_icp.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
