@@ -17,8 +17,8 @@ class TestLaserICP:
 
         self._first = True
         self._pose = PoseWithCovarianceStamped()
+        self._scan0 = LaserScan()
         self._scan1 = LaserScan()
-        self._scan2 = LaserScan()
         self._prior = Pose()
 
     def _get_pose_client(self):
