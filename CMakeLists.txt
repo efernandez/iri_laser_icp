@@ -48,6 +48,9 @@ add_dependencies(${PROJECT_NAME} ${csm_EXPORTED_TARGETS})
 add_executable(laser_icp_server src/laser_icp_server.cpp)
 target_link_libraries(laser_icp_server ${PROJECT_NAME})
 
+install(TARGETS laser_icp_server
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
 install(PROGRAMS scripts/test_laser_icp.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
