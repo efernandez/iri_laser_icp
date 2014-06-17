@@ -1,4 +1,4 @@
-#include "laser_icp_alg.h"
+#include <iri_laser_icp/laser_icp_alg.h>
 
 LaserIcpAlgorithm::LaserIcpAlgorithm(void)
 {
