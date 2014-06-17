@@ -51,7 +51,7 @@ target_link_libraries(laser_icp_server ${PROJECT_NAME})
 install(PROGRAMS scripts/test_laser_icp.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-foreach(dir launch)
+foreach(dir config launch)
     install(DIRECTORY ${dir}/
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)

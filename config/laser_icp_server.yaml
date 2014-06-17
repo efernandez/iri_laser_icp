@@ -1,0 +1,13 @@
+max_angular_correction_deg: 30.0
+max_linear_correction     :  1.0
+
+max_iterations           : 30.0
+max_correspondenc_dist   :  0.5
+clustering_threshold     :  0.1
+orientation_neighbourhood: 50.0
+
+use_point_to_line_distance: 1
+use_corr_tricks           : 1
+restart                   : 1
+do_visibility_test        : 0
+do_compute_covariance     : 1

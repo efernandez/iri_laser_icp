@@ -1,0 +1,6 @@
+<launch>
+  <node name="laser_icp_server" pkg="iri_laser_icp" type="laser_icp_server"
+        output="screen">
+    <rosparam file="$(find iri_laser_icp)/config/laser_icp_server.yaml" command="load"/>
+  </node>
+</launch>
