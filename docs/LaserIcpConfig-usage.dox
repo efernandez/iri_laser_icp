@@ -1,6 +1,0 @@
-\subsubsection usage Usage
-\verbatim
-<node name="LaserIcpAlgorithm" pkg="iri_laser_icp" type="LaserIcpAlgorithm">
-</node>
-\endverbatim
-

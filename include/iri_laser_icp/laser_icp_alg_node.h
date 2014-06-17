@@ -26,7 +26,7 @@
 #define _laser_icp_alg_node_h_
 
 #include <iri_base_algorithm/iri_base_algorithm.h>
-#include "laser_icp_alg.h"
+#include <iri_laser_icp/laser_icp_alg.h>
 
 // [publisher subscriber headers]
 
