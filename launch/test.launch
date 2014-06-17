@@ -1,50 +1,21 @@
-<!-- laser navigation testing-->
 <launch>
+  <!--arg name="bag" default="$(find iri_laser_icp)/data/L_pujadeta_indoor_2012-05-25-12-34-23.bag"/-->
 
-<!-- <arg name="bag" default="$(find iri_laser_icp)/data/L_pujadeta_indoor_2012-05-25-12-34-23.bag" />
+  <include file="$(find iri_laser_icp)/path.launch"/>
 
-<node name="rosbag"
-      pkg="rosbag"
-      type="play"
-      output="screen"
+  <!--node name="rosbag" pkg="rosbag" type="play" output="screen"
       args = "$(arg bag) -clock -pause">
-      <remap from="/teo/front_laser/scan" to="/scan" />
-</node> -->
+    <remap from="/teo/front_laser/scan" to="/scan"/>
+  </node-->
 
-<node name="test_icp_server"
-      pkg="iri_laser_icp"
-      type="iri_laser_icp"
+  <!--node name="test_icp_client" pkg="iri_laser_icp" type="test_laser_icp.py"
       output="screen">
-    <param name="~max_angular_correction_deg" value="30"/>
-    <param name="~max_linear_correction" value="1"/>
-    <param name="~max_iterations" value="30"/>
-    <param name="~max_correspondence_dist" value="0.5"/>
-    <param name="~clustering_threshold" value="0.1"/>
-    <param name="~orientation_neighbourhood" value="50"/>
-    <param name="~use_point_to_line_distance" value="1"/>
-    <param name="~use_corr_tricks" value="1"/>
-    <param name="~restart" value="1"/>
-    <param name="~do_visibility_test" value="0"/>
-    <param name="~do_compute_covariance" value="1"/>
-</node>
+    <remap from="~scan" to="/teo/front_laser/scan"/>
+  </node-->
 
-<!--
-<node name="test_icp_client"
-      pkg="iri_laser_icp"
-      type="test_laser_icp.py"
-      output="screen">
-      <remap from="~scan" to="/teo/front_laser/scan" />
-</node>
--->
-<!-- node name="rviz" pkg="rviz" type="rviz"/ 
+  <!--node name="rviz" pkg="rviz" type="rviz"/-->
 
-
-<node name="pwcs_to_odom"
-      pkg="iri_msg_to_odom"
-      type="posewcs_to_odom">
-      <remap from="~pose" to="/iri_laser_localisation/pose"/>
-      </node>
-
--->
-
+  <!--node name="pwcs_to_odom" pkg="iri_msg_to_odom" type="posewcs_to_odom">
+    <remap from="~pose" to="/iri_laser_localisation/pose"/>
+  </node-->
 </launch>

@@ -23,7 +23,7 @@ class TestLaserICP:
 
     def _get_pose_client(self):
         try:
-            pose_srv = rospy.ServiceProxy('test_icp_server/get_relative_pose', GetRelativePose)
+            pose_srv = rospy.ServiceProxy('laser_icp_server/get_relative_pose', GetRelativePose)
             pose_srv.wait_for_service()
 
             res = pose_srv(self._scan0, self._scan1, self._prior)

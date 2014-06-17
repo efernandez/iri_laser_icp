@@ -43,7 +43,7 @@ class LaserIcpAlgorithm
     * Define a Config type with the HelloWorldConfig. All driver implementations
     * will then use the same variable type Config.
     */
-    pthread_mutex_t access_;    
+    pthread_mutex_t access_;
 
     // private attributes and methods
 
@@ -92,11 +92,11 @@ class LaserIcpAlgorithm
     * \brief Tries Access to Algorithm
     *
     * Tries access to Algorithm
-    * 
+    *
     * \return true if the lock was adquired, false otherwise
     */
-    bool try_enter(void) 
-    { 
+    bool try_enter(void)
+    {
       if(pthread_mutex_trylock(&this->access_)==0)
         return true;
       else

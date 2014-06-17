@@ -1,4 +1,4 @@
-#include <iri_laser_icp/laser_icp_alg_node.h>
+#include <iri_laser_icp/laser_icp_server.h>
 
 LaserIcpAlgNode::LaserIcpAlgNode(void) :
   algorithm_base::IriBaseAlgorithm<LaserIcpAlgorithm>()
@@ -72,7 +72,7 @@ bool LaserIcpAlgNode::get_relative_poseCallback(
     input_.max_reading = std::min(float(max_laser_range_), std::max(req.scan_ref.range_max,req.scan_sens.range_max));
     laserScanToLDP(req.scan_ref, ref_ldp_scan_);
     laserScanToLDP(req.scan_sens, sens_ldp_scan_);
-    
+
     // first guess given
     input_.first_guess[0] = req.prior_d.position.x;
     input_.first_guess[1] = req.prior_d.position.y;
@@ -80,7 +80,7 @@ bool LaserIcpAlgNode::get_relative_poseCallback(
       input_.first_guess[2] = tf::getYaw(req.prior_d.orientation);
     else
       input_.first_guess[2] = 0;
-      
+
     processScans();
 
     // output_
@@ -88,43 +88,43 @@ bool LaserIcpAlgNode::get_relative_poseCallback(
     //       struct sm_result {
     //   /** 1 if the result is valid */
     //   int valid;
-      
+
     //   /** Scan matching result (x,y,theta) */
     //   double x[3];
-      
+
     //   /** Number of iterations done */
     //   int iterations;
-    //   * Number of valid correspondence in the end 
+    //   * Number of valid correspondence in the end
     //   int nvalid;
     //   /** Total correspondence error */
     //   double error;
-      
+
     //   /** Fields used for covariance computation */
     //   #ifndef RUBY
-    //     gsl_matrix *cov_x_m;  
+    //     gsl_matrix *cov_x_m;
     //     gsl_matrix *dx_dy1_m;
     //     gsl_matrix *dx_dy2_m;
     //   #endif
     // };
 
 //     #include <gsl/gsl_matrix.h>
- 
+
 // int print_matrix(FILE *f, const gsl_matrix *m)
 // {
 //         int status, n = 0;
- 
+
 //         for (size_t i = 0; i < m->size1; i++) {
 //                 for (size_t j = 0; j < m->size2; j++) {
 //                         if ((status = fprintf(f, "%g ", gsl_matrix_get(m, i, j))) < 0)
 //                                 return -1;
 //                         n += status;
 //                 }
- 
+
 //                 if ((status = fprintf(f, "\n")) < 0)
 //                         return -1;
 //                 n += status;
 //         }
- 
+
 //         return n;
 // }
 
@@ -179,14 +179,14 @@ bool LaserIcpAlgNode::get_relative_poseCallback(
   return true;
 }
 
-void LaserIcpAlgNode::get_relative_pose_mutex_enter(void) 
-{ 
-  pthread_mutex_lock(&this->get_relative_pose_mutex_); 
-} 
+void LaserIcpAlgNode::get_relative_pose_mutex_enter(void)
+{
+  pthread_mutex_lock(&this->get_relative_pose_mutex_);
+}
 
-void LaserIcpAlgNode::get_relative_pose_mutex_exit(void) 
-{ 
-  pthread_mutex_unlock(&this->get_relative_pose_mutex_); 
+void LaserIcpAlgNode::get_relative_pose_mutex_exit(void)
+{
+  pthread_mutex_unlock(&this->get_relative_pose_mutex_);
 }
 
 /*  [action callbacks] */
@@ -207,7 +207,7 @@ void LaserIcpAlgNode::addNodeDiagnostics(void)
 /* main function */
 int main(int argc,char *argv[])
 {
-  return algorithm_base::main<LaserIcpAlgNode>(argc, argv, "laser_icp_alg_node");
+  return algorithm_base::main<LaserIcpAlgNode>(argc, argv, "laser_icp_server");
 }
 
 
@@ -219,13 +219,13 @@ void LaserIcpAlgNode::initParams()
 
   if (!private_node_handle_.getParam ("max_laser_range", max_laser_range_))
     max_laser_range_ = 1.0e10;
-  
+
   if (!private_node_handle_.getParam ("use_alpha_beta", use_alpha_beta_))
     use_alpha_beta_ = false;
 
   if (!private_node_handle_.getParam ("alpha", alpha_))
     alpha_ = 1.0;
-  
+
   if (!private_node_handle_.getParam ("beta", beta_))
     beta_ = 0.8;
 
