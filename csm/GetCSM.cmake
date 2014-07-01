@@ -10,7 +10,7 @@ function( download_and_compile_csm )
     _set_csm_dirs()
 
     include(ExternalProject)
-    ExternalProject_Add(csm_src
+    ExternalProject_Add(csm_src_iri
         #--CMake variables ---------------------------------------------------------
         PREFIX ${CSM_BINARY_DIR}
         TMP_DIR ${CSM_BINARY_DIR}/tmp
@@ -28,7 +28,7 @@ function( download_and_compile_csm )
     # Create phony target csm and add dependency on csm_source
     add_library(csm SHARED IMPORTED)
     set_target_properties(csm PROPERTIES IMPORTED_LOCATION "${CSM_BINARY_DIR}/install/lib/libcsm.so")
-    add_dependencies(csm csm_src)
+    add_dependencies(csm csm_src_iri)
 
     # Pass variables to parent scope to interface with the new library
     set(csm_LIBRARIES csm PARENT_SCOPE)
